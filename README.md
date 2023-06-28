@@ -1,32 +1,54 @@
 # 26D-Lattice-DAG-w-Polynomials
 26D Lattice DAG w Polynomials
 
-The code begins with including necessary header files: iostream, vector, random, sstream, iomanip, and cwchar. These headers provide functionality for input/output, random number generation, string manipulation, and wide character support.
+The code begins by including the necessary libraries for input/output operations, working with vectors, generating random numbers, and string manipulation.
 
-The code defines a structure LatticeSymbol that represents a lattice symbol with a polynomial. It contains two members: polynomial, which is a vector representing the polynomial coefficients, and complexity, which represents the complexity of the symbol.
+Two structs are defined: LatticeSymbol and DAGNode.
 
-The code defines a structure DAGNode representing a node in the Directed Acyclic Graph (DAG) that forms the lattice. It contains two members: parents, a vector of parent indices, and symbol, which is an instance of LatticeSymbol.
+LatticeSymbol represents a lattice symbol and consists of two members: polynomial (a vector of integers representing the polynomial coefficients) and complexity (an unsigned integer representing the complexity of the symbol).
 
-The createLattice function takes a vector of integers dimensions as input and returns a vector of DAGNode representing the higher-dimensional lattice with polynomial symbols. This function creates a random number generator and calculates the total number of nodes in the lattice based on the dimensions.
+DAGNode represents a node in the Directed Acyclic Graph (DAG) structure of the lattice. It contains two members: parents (a vector of integers representing the indices of the parent nodes) and symbol (a LatticeSymbol object representing the lattice symbol associated with the node).
 
-Inside createLattice, the lattice structure is initialized with the correct size using std::vector<DAGNode> lattice(numNodes).
+The createLattice function is defined, which takes a vector of integers called dimensions as input. It creates a higher-dimensional lattice with polynomial symbols.
 
-The lattice is filled with random polynomial symbols. For each node in the lattice, a random polynomial of size numCoefficients is generated using a uniform distribution over the range of Unicode code points. The complexity of each symbol is set to a random value between 0 and 99.
+A random number generator is initialized using std::random_device and std::mt19937 (Mersenne Twister engine).
 
-The lattice nodes are connected based on adjacency. The function iterates through each node and calculates its corresponding indices in the lattice based on the dimensions. It then finds the neighbors in the positive and negative directions for each dimension and adds their indices to the parents vector of the current node.
+The total number of nodes in the lattice is calculated by multiplying all the dimensions together.
 
-The evaluatePolynomial function takes a vector of integers polynomial and a value x as input and evaluates the polynomial at that value using the Horner's method.
+An empty vector called lattice is created to store the lattice nodes.
 
-The encryptMessage function takes a wide string message and the lattice as input and returns a vector of integers representing the encrypted message. It iterates over each character in the message, finds the corresponding lattice index using the modulus operator, retrieves the polynomial of the lattice node, and evaluates it at the lattice index. The resulting symbol is added to the encrypted data vector.
+The lattice vector is filled with random polynomial symbols. For each node, a random coefficient is assigned to each term of the polynomial, and a random complexity value between 0 and 99 is assigned to the symbol.
 
-The decryptMessage function takes a vector of integers encryptedData and the lattice as input and returns the decrypted wide string. It iterates over each symbol in the encrypted data, searches for the lattice node that corresponds to the symbol by evaluating each polynomial at its respective index, and converts the lattice index to an uppercase character, which is then added to the decrypted message.
+The lattice nodes are connected based on adjacency. For each node, the indices of its neighbors in the positive and negative directions are calculated, and if the indices are within the valid range, they are added as parents of the current node.
 
-The intListToString function takes a vector of integers data and converts it to a wide string representation where each integer is formatted with a width of 6 and leading zeros using std::setw and std::setfill. The resulting string is returned.
+The evaluatePolynomial function is defined, which takes a vector of coefficients (polynomial) and a value (value) as input. It evaluates the polynomial represented by the coefficients at the given value and returns the result.
 
-In the main function, the dimensions of the higher-dimensional lattice are defined. In this case, it's a 26-dimensional lattice with each dimension having 2 elements, resulting in a total of 2^26 nodes.
+The encryptMessage function is defined, which takes a string (message) and the lattice as input. It encrypts the message using the higher-dimensional lattice symbols.
+
+For each character in the message, the corresponding lattice index is obtained by taking the modulo of the character with the size of the lattice.
+
+The polynomial coefficients associated with the lattice symbol at the obtained index are retrieved.
+
+The lattice index is used as the value to evaluate the polynomial, resulting in the encrypted symbol.
+
+The encrypted symbols are stored in a vector called encryptedData.
+
+The decryptMessage function is defined, which takes the encrypted data (a vector of integers) and the lattice as input. It decrypts the message using the higher-dimensional lattice symbols.
+
+For each encrypted symbol, the corresponding lattice index is determined by searching for the lattice index where the evaluated symbol matches the encrypted symbol.
+
+The lattice index is converted to a character by taking the modulo of the index with 256.
+
+The decrypted characters are concatenated to form the decrypted message.
+
+The intListToString function is defined, which takes a vector of integers (data) and converts it to a string representation.
+
+The main function is implemented.
+
+The dimensions of the higher-dimensional lattice are defined as a vector of integers. In this example, a 26-dimensional lattice with each dimension set to 2 is used.
 
 The createLattice function is called to generate the higher-dimensional lattice with polynomial symbols.
 
-A message is defined as a wide string message containing the text to be encrypted.
+A message is defined as a string.
 
-The encryptMessage function is called with the message and lattice as input, and the resulting encrypted message is stored in the encryptedMessage vector.
+The encryptMessage
